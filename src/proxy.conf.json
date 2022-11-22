@@ -1,0 +1,11 @@
+{
+    "/api/*": {
+      "target": "http://183.88.232.32:3000",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }
+}
