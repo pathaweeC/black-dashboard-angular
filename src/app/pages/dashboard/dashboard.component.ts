@@ -11,11 +11,13 @@ export class DashboardComponent implements OnInit {
   public ctx;
   public datasets: any;
   public datasets1: any;
+  public datasets2: any;
   public data: any;
   public data1: any;
+  public data2: any;
   public datafromDB: any;
   public myChartData;
-  public chart_labels1;
+  public myChartData1;
   public clicked: boolean = true;
   public clicked1: boolean = false;
   public clicked2: boolean = false;
@@ -366,54 +368,67 @@ export class DashboardComponent implements OnInit {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
+          data: this.data1
         }]
       },
 
       options: gradientChartOptionsConfigurationWithTooltipRed,
     };
 
-    this.myChartData = new Chart(this.ctx, config1);
-    
+      var myChart = new Chart(this.ctx, {
+      type: 'line',
+      data: config1,
+      options: gradientChartOptionsConfigurationWithTooltipRed
 
-////////////////////////////////////////////////
+    });
 
-    // this.canvas = document.getElementById("chartLineGreen");
-    // this.ctx = this.canvas.getContext("2d");
+    ////////////////////////////////////////////////
+
+    this.datasets2 = [
+      [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130],
+      [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120],
+      [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130],
+      [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120]
+    ];
+    this.data2 = this.datasets2[0];
+
+    this.canvas = document.getElementById("chartLineGreen");
+    this.ctx = this.canvas.getContext("2d");
 
 
-    // var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
+    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
 
-    // gradientStroke.addColorStop(1, 'rgba(66,134,121,0.15)');
-    // gradientStroke.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
-    // gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
+    gradientStroke.addColorStop(1, 'rgba(66,134,121,0.15)');
+    gradientStroke.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
+    gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
 
-    // var data = {
-    //   labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
-    //   datasets: [{
-    //     label: "My First dataset",
-    //     fill: true,
-    //     backgroundColor: gradientStroke,
-    //     borderColor: '#00d6b4',
-    //     borderWidth: 2,
-    //     borderDash: [],
-    //     borderDashOffset: 0.0,
-    //     pointBackgroundColor: '#00d6b4',
-    //     pointBorderColor: 'rgba(255,255,255,0)',
-    //     pointHoverBackgroundColor: '#00d6b4',
-    //     pointBorderWidth: 20,
-    //     pointHoverRadius: 4,
-    //     pointHoverBorderWidth: 15,
-    //     pointRadius: 4,
-    //     data: [90, 27, 60, 12, 80],
-    //   }]
-    // };
+    var data = {
+      labels: chart_labels1,
+      datasets: [{
+        label: "My First dataset",
+        fill: true,
+        backgroundColor: gradientStroke,
+        borderColor: '#00d6b4',
+        borderWidth: 2,
+        borderDash: [],
+        borderDashOffset: 0.0,
+        pointBackgroundColor: '#00d6b4',
+        pointBorderColor: 'rgba(255,255,255,0)',
+        pointHoverBackgroundColor: '#00d6b4',
+        pointBorderWidth: 20,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 15,
+        pointRadius: 4,
+        data: this.data2,
+      }]
+    };
 
-    // var myChart = new Chart(this.ctx, {
-    //   type: 'line',
-    //   data: data,
-    //   options: gradientChartOptionsConfigurationWithTooltipGreen
+    var myChart = new Chart(this.ctx, {
+      type: 'line',
+      data: data,
+      options: gradientChartOptionsConfigurationWithTooltipGreen
 
-    // });
+    });
 
     ////////////////////////////////////////////////
 
@@ -465,6 +480,11 @@ export class DashboardComponent implements OnInit {
   public updateOptions() {
     this.myChartData.data.datasets[0].data = this.data;
     this.myChartData.update();
+  }
+
+  public updateOptions2() {
+    this.myChartData1.data.datasets1[0].data = this.data1;
+    this.myChartData1.update();
   }
 }
 function uniqBy(res: string, arg1: unknown): any {
