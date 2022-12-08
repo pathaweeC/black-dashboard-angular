@@ -7,32 +7,39 @@ import Chart from 'chart.js';
   templateUrl: "dashboard.component.html"
 })
 export class DashboardComponent implements OnInit {
-  public canvas : any;
+  public canvas: any;
   public ctx;
   public datasets: any;
+  public datasets1: any;
   public data: any;
+  public data1: any;
   public datafromDB: any;
   public myChartData;
+  public chart_labels1;
   public clicked: boolean = true;
   public clicked1: boolean = false;
   public clicked2: boolean = false;
   public clicked3: boolean = false;
+  public clicked4: boolean = true;
+  public clicked5: boolean = false;
+  public clicked6: boolean = false;
+  public clicked7: boolean = false;
   vac = []
   time = []
 
-  constructor(private CallDB: callDBService) {}
+  constructor(private CallDB: callDBService) { }
 
   ngOnInit() {
-    
-      this.CallDB.getVolt()
+
+    this.CallDB.getVolt()
       .subscribe((res: any) => {
-          console.log(res);
-          for (const iterator of res) {
-            this.vac.push(Number(iterator?.VAC));
-            this.time.push(iterator?.Time);
-          }
+        console.log(res);
+        for (const iterator of res) {
+          this.vac.push(Number(iterator?.VAC));
+          this.time.push(iterator?.Time);
+        }
       })
-    
+
     var gradientChartOptionsConfigurationWithTooltipBlue: any = {
       maintainAspectRatio: false,
       legend: {
@@ -155,8 +162,8 @@ export class DashboardComponent implements OnInit {
             zeroLineColor: "transparent",
           },
           ticks: {
-            suggestedMin: Math.min(...this.vac)-5,
-            suggestedMax: Math.max(...this.vac)+5,
+            suggestedMin: Math.min(...this.vac) - 5,
+            suggestedMax: Math.max(...this.vac) + 5,
             padding: 20,
             fontColor: "#9a9a9a"
           }
@@ -300,8 +307,8 @@ export class DashboardComponent implements OnInit {
             zeroLineColor: "transparent",
           },
           ticks: {
-            suggestedMin: Math.min(...this.vac)-5,
-            suggestedMax: Math.max(...this.vac)+5,
+            suggestedMin: Math.min(...this.vac) - 5,
+            suggestedMax: Math.max(...this.vac) + 5,
             padding: 20,
             fontColor: "#9e9e9e"
           }
@@ -331,77 +338,88 @@ export class DashboardComponent implements OnInit {
     gradientStroke.addColorStop(0.4, 'rgba(233,32,16,0.0)');
     gradientStroke.addColorStop(0, 'rgba(233,32,16,0)'); //red colors
 
-    var data = {
-      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-      datasets: [{
-        label: "Data",
-        fill: true,
-        backgroundColor: gradientStroke,
-        borderColor: '#ec250d',
-        borderWidth: 2,
-        borderDash: [],
-        borderDashOffset: 0.0,
-        pointBackgroundColor: '#ec250d',
-        pointBorderColor: 'rgba(255,255,255,0)',
-        pointHoverBackgroundColor: '#ec250d',
-        pointBorderWidth: 20,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 15,
-        pointRadius: 4,
-        data: [80, 100, 70, 80, 120, 80],
-      }]
+    var chart_labels1 = this.time;
+    this.datasets1 = [
+      [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130],
+      [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120],
+      [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130],
+      [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120]
+    ];
+    this.data1 = this.datasets1[0];
+
+    var config1 = {
+      type: 'line',
+      data1: {
+        labels: chart_labels1,
+        datasets1: [{
+          label: "chart",
+          fill: true,
+          backgroundColor: gradientStroke,
+          borderColor: '#ec250d',
+          borderWidth: 2,
+          borderDash: [],
+          borderDashOffset: 0.0,
+          pointBackgroundColor: '#ec250d',
+          pointBorderColor: 'rgba(255,255,255,0)',
+          pointHoverBackgroundColor: '#ec250d',
+          pointBorderWidth: 20,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 15,
+          pointRadius: 4,
+        }]
+      },
+
+      options: gradientChartOptionsConfigurationWithTooltipRed,
     };
 
-    var myChart = new Chart(this.ctx, {
-      type: 'line',
-      data: data,
-      options: gradientChartOptionsConfigurationWithTooltipRed
-    });
-
-
-    this.canvas = document.getElementById("chartLineGreen");
-    this.ctx = this.canvas.getContext("2d");
-
-
-    var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke.addColorStop(1, 'rgba(66,134,121,0.15)');
-    gradientStroke.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
-    gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
-
-    var data = {
-      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
-      datasets: [{
-        label: "My First dataset",
-        fill: true,
-        backgroundColor: gradientStroke,
-        borderColor: '#00d6b4',
-        borderWidth: 2,
-        borderDash: [],
-        borderDashOffset: 0.0,
-        pointBackgroundColor: '#00d6b4',
-        pointBorderColor: 'rgba(255,255,255,0)',
-        pointHoverBackgroundColor: '#00d6b4',
-        pointBorderWidth: 20,
-        pointHoverRadius: 4,
-        pointHoverBorderWidth: 15,
-        pointRadius: 4,
-        data: [90, 27, 60, 12, 80],
-      }]
-    };
-
-    var myChart = new Chart(this.ctx, {
-      type: 'line',
-      data: data,
-      options: gradientChartOptionsConfigurationWithTooltipGreen
-
-    });
+    this.myChartData = new Chart(this.ctx, config1);
+    
 
 ////////////////////////////////////////////////
 
+    // this.canvas = document.getElementById("chartLineGreen");
+    // this.ctx = this.canvas.getContext("2d");
+
+
+    // var gradientStroke = this.ctx.createLinearGradient(0, 230, 0, 50);
+
+    // gradientStroke.addColorStop(1, 'rgba(66,134,121,0.15)');
+    // gradientStroke.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
+    // gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
+
+    // var data = {
+    //   labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV'],
+    //   datasets: [{
+    //     label: "My First dataset",
+    //     fill: true,
+    //     backgroundColor: gradientStroke,
+    //     borderColor: '#00d6b4',
+    //     borderWidth: 2,
+    //     borderDash: [],
+    //     borderDashOffset: 0.0,
+    //     pointBackgroundColor: '#00d6b4',
+    //     pointBorderColor: 'rgba(255,255,255,0)',
+    //     pointHoverBackgroundColor: '#00d6b4',
+    //     pointBorderWidth: 20,
+    //     pointHoverRadius: 4,
+    //     pointHoverBorderWidth: 15,
+    //     pointRadius: 4,
+    //     data: [90, 27, 60, 12, 80],
+    //   }]
+    // };
+
+    // var myChart = new Chart(this.ctx, {
+    //   type: 'line',
+    //   data: data,
+    //   options: gradientChartOptionsConfigurationWithTooltipGreen
+
+    // });
+
+    ////////////////////////////////////////////////
+
     var chart_labels = this.time;
     this.datasets = [
-      [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100],
+      this.vac,
       [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120],
       [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130],
       this.vac
@@ -436,10 +454,6 @@ export class DashboardComponent implements OnInit {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          
-          Low: Math.min(...this.vac)-5,
-          High: Math.max(...this.vac)+5,
-      // data: this.data,
         }]
       },
 
