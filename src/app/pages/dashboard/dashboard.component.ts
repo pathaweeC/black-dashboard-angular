@@ -11,8 +11,10 @@ export class DashboardComponent implements OnInit {
   public ctx;
   public datasets: any;
   public datasets1: any;
+  public datasets2: any;
   public data: any;
   public data1: any;
+  public data2: any;
   public datafromDB: any;
   public myChartData1;
   public myChartData2;
@@ -385,6 +387,7 @@ export class DashboardComponent implements OnInit {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
+          data: this.data1
         }]
       },
 
@@ -503,6 +506,11 @@ export class DashboardComponent implements OnInit {
         element.active = false;
       }
     }
+  }
+
+  public updateOptions2() {
+    this.myChartData1.data.datasets1[0].data = this.data1;
+    this.myChartData1.update();
   }
 }
 function uniqBy(res: string, arg1: unknown): any {
