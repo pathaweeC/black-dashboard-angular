@@ -14,7 +14,8 @@ export class DashboardComponent implements OnInit {
   public data: any;
   public data1: any;
   public datafromDB: any;
-  public myChartData;
+  public myChartData1;
+  public myChartData2;
   public chart_labels1;
   public clicked: boolean = true;
   public clicked1: boolean = false;
@@ -26,7 +27,24 @@ export class DashboardComponent implements OnInit {
   public clicked7: boolean = false;
   vac = []
   time = []
-
+  button_route2 = [
+    {
+      btn: 'Test1',
+      active: true
+    },
+    {
+      btn: 'Test2',
+      active: false
+    },
+    {
+      btn: 'Test3',
+      active: false
+    },
+    {
+      btn: 'Test4',
+      active: false
+    }
+  ]
   constructor(private CallDB: callDBService) { }
 
   ngOnInit() {
@@ -345,13 +363,14 @@ export class DashboardComponent implements OnInit {
       [60, 80, 65, 130, 80, 105, 90, 130, 70, 115, 60, 130],
       [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120]
     ];
-    this.data1 = this.datasets1[0];
-
+    this.data1 = this.datasets1;
+    console.log('chart_labels1', chart_labels1);
+    
     var config1 = {
       type: 'line',
-      data1: {
+      data: {
         labels: chart_labels1,
-        datasets1: [{
+        datasets: [{
           label: "chart",
           fill: true,
           backgroundColor: gradientStroke,
@@ -372,7 +391,7 @@ export class DashboardComponent implements OnInit {
       options: gradientChartOptionsConfigurationWithTooltipRed,
     };
 
-    this.myChartData = new Chart(this.ctx, config1);
+    this.myChartData2 = new Chart(this.ctx, config1);
     
 
 ////////////////////////////////////////////////
@@ -459,12 +478,31 @@ export class DashboardComponent implements OnInit {
 
       options: gradientChartOptionsConfigurationWithTooltipRed,
     };
-    this.myChartData = new Chart(this.ctx, config);
+    this.myChartData1 = new Chart(this.ctx, config);
 
   }
+
   public updateOptions() {
-    this.myChartData.data.datasets[0].data = this.data;
-    this.myChartData.update();
+    this.myChartData1.data.datasets[0].data = this.data;
+    this.myChartData1.update();
+    
+  }
+
+  updateRoute2(index: number) {
+    this.active(index);
+    this.myChartData2.data.datasets[0].data = this.data1[index];
+    this.myChartData2.update();
+  }
+
+  active(index: number) {
+    for (let i = 0; i < this.button_route2.length; i++) {
+      const element = this.button_route2[i];
+      if (i == index) {
+        element.active = true;
+      } else {
+        element.active = false;
+      }
+    }
   }
 }
 function uniqBy(res: string, arg1: unknown): any {
