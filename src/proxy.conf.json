@@ -1,6 +1,6 @@
 {
     "/api/*": {
-      "target": "http://183.88.232.32:3000",
+      "target": "http://dev.hwtc.transcode.co.th",
       "secure": false,
       "changeOrigin": true,
       "logLevel": "debug",
