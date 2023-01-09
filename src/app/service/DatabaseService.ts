@@ -15,7 +15,7 @@ export class callDBService {
         return this._http.get(this.url + "/getvolt");
     }
     
-    getVolt() {
+    getVolt() { 
         return this._http.get(this.url + "/getVoltage");
     }
 
